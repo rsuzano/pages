@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="pt-BR">
+    <head>
+      <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Calculadora de Temperatura do Aquário</title>
+            <style>
+                body {
+                      font-family: Arial, sans-serif;
+                            padding: 2em;
+                                  background: #f4f4f4;
+                                      }
+                                          .container {
+                                                max-width: 600px;
+                                                      margin: auto;
+                                                            background: white;
+                                                                  padding: 2em;
+                                                                        border-radius: 8px;
+                                                                              box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                                                                                  }
+                                                                                      label {
+                                                                                            display: block;
+                                                                                                  margin-top: 1em;
+                                                                                                      }
+                                                                                                          input {
+                                                                                                                width: 100%;
+                                                                                                                      padding: 0.5em;
+                                                                                                                            margin-top: 0.3em;
+                                                                                                                                }
+                                                                                                                                    button {
+                                                                                                                                          margin-top: 1.5em;
+                                                                                                                                                padding: 0.7em 1.5em;
+                                                                                                                                                      font-size: 1em;
+                                                                                                                                                            background-color: #28a745;
+                                                                                                                                                                  color: white;
+                                                                                                                                                                        border: none;
+                                                                                                                                                                              border-radius: 5px;
+                                                                                                                                                                                    cursor: pointer;
+                                                                                                                                                                                        }
+                                                                                                                                                                                            .resultado {
+                                                                                                                                                                                                  margin-top: 2em;
+                                                                                                                                                                                                        padding: 1em;
+                                                                                                                                                                                                              background-color: #e9ecef;
+                                                                                                                                                                                                                    border-radius: 5px;
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                          </style>
+                                                                                                                                                                                                                          </head>
+                                                                                                                                                                                                                          <body>
+                                                                                                                                                                                                                            <div class="container">
+                                                                                                                                                                                                                                <h1>Calculadora de Temperatura do Aquário</h1><label for="volumeInicial">Volume inicial do aquário (L):</label>
+                                                                                                                                                                                                                                <input type="number" id="volumeInicial" value="130" />
+
+                                                                                                                                                                                                                                <label for="tempInicial">Temperatura inicial do aquário (°C):</label>
+                                                                                                                                                                                                                                <input type="number" id="tempInicial" value="28" />
+
+                                                                                                                                                                                                                                <label for="volumeRemovido">Volume removido (L):</label>
+                                                                                                                                                                                                                                <input type="number" id="volumeRemovido" value="80" />
+
+                                                                                                                                                                                                                                <label for="volumeAdicionado1">Volume adicionado (Etapa 1) (L):</label>
+                                                                                                                                                                                                                                <input type="number" id="volumeAdicionado1" value="60" />
+
+                                                                                                                                                                                                                                <label for="tempAdicionado1">Temperatura da água adicionada (Etapa 1) (°C):</label>
+                                                                                                                                                                                                                                <input type="number" id="tempAdicionado1" value="22" />
+
+                                                                                                                                                                                                                                <label for="volumeFinal">Volume restante a adicionar (L):</label>
+                                                                                                                                                                                                                                <input type="number" id="volumeFinal" value="20" />
+
+                                                                                                                                                                                                                                <label for="tempDesejada">Temperatura final desejada (°C):</label>
+                                                                                                                                                                                                                                <input type="number" id="tempDesejada" value="28" />
+
+                                                                                                                                                                                                                                <button onclick="calcularTemperaturaFinal()">Calcular</button>
+
+                                                                                                                                                                                                                                <div class="resultado" id="resultado"></div>
+
+                                                                                                                                                                                                                                  </div>  <script>
+                                                                                                                                                                                                                                      function calcularTemperaturaFinal() {
+                                                                                                                                                                                                                                            const volumeInicial = parseFloat(document.getElementById("volumeInicial").value);
+                                                                                                                                                                                                                                                  const tempInicial = parseFloat(document.getElementById("tempInicial").value);
+                                                                                                                                                                                                                                                        const volumeRemovido = parseFloat(document.getElementById("volumeRemovido").value);
+                                                                                                                                                                                                                                                              const volumeAdicionado1 = parseFloat(document.getElementById("volumeAdicionado1").value);
+                                                                                                                                                                                                                                                                    const tempAdicionado1 = parseFloat(document.getElementById("tempAdicionado1").value);
+                                                                                                                                                                                                                                                                          const volumeFinal = parseFloat(document.getElementById("volumeFinal").value);
+                                                                                                                                                                                                                                                                                const tempDesejada = parseFloat(document.getElementById("tempDesejada").value);
+
+                                                                                                                                                                                                                                                                                      const volumeRestante = volumeInicial - volumeRemovido;
+                                                                                                                                                                                                                                                                                            const energiaParcial = (volumeRestante * tempInicial) + (volumeAdicionado1 * tempAdicionado1);
+                                                                                                                                                                                                                                                                                                  const energiaDesejada = (volumeRestante + volumeAdicionado1 + volumeFinal) * tempDesejada;
+                                                                                                                                                                                                                                                                                                        const energiaFaltante = energiaDesejada - energiaParcial;
+                                                                                                                                                                                                                                                                                                              const tempNecessaria = energiaFaltante / volumeFinal;
+
+                                                                                                                                                                                                                                                                                                                    document.getElementById("resultado").innerHTML =
+                                                                                                                                                                                                                                                                                                                            `<strong>Temperatura necessária dos ${volumeFinal} L finais:</strong> ` +
+                                                                                                                                                                                                                                                                                                                                    tempNecessaria.toFixed(2) + ` °C`;
+                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                          </script></body>
+                                                                                                                                                                                                                                                                                                                                          </html>
